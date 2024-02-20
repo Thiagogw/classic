@@ -43,8 +43,13 @@ public class EpisodeService {
                 .build();
     }
 
-    public String create(Episode episode) {
-        return episodeRepository.save(episode).getTitle();
+    public EpisodeResponse create(Episode episode) {
+        Episode savedEpisode = episodeRepository.save(episode);
+
+        return EpisodeResponse.builder()
+                .title(savedEpisode.getTitle())
+                .name(savedEpisode.getName())
+                .build();
     }
 
     public EpisodeResponse update(String title, Episode episode) {
@@ -60,11 +65,14 @@ public class EpisodeService {
                 .build();
     }
 
-    public boolean delete(String title) {
+    public EpisodeResponse delete(String title) {
         Episode existingEpisode = episodeRepository.findByTitle(title);
 
         episodeRepository.delete(existingEpisode);
 
-        return true;
+        return EpisodeResponse.builder()
+                .title(existingEpisode.getTitle())
+                .name(existingEpisode.getName())
+                .build();
     }
 }

@@ -25,14 +25,17 @@ public class AnimeService {
                 .map(anime -> {
                             List<Episode> episodes = episodeRepository.findByName(anime.getName());
 
+                            List<EpisodeResponse> episodesResponses = episodes.stream()
+                                    .map(episode -> EpisodeResponse.builder()
+                                            .name(episode.getName())
+                                            .title(episode.getTitle())
+                                            .build())
+                                    .toList();
+
                             return AnimeResponse.builder()
                                     .name(anime.getName())
-                                    .episodes(episodes.stream()
-                                            .map(episode -> EpisodeResponse.builder()
-                                                    .name(episode.getName())
-                                                    .title(episode.getTitle())
-                                                    .build()).toList()
-                                    ).build();
+                                    .episodes(episodesResponses)
+                                    .build();
                         }
                 ).toList();
     }
@@ -42,15 +45,16 @@ public class AnimeService {
 
         List<Episode> episodes = episodeRepository.findByName(anime.getName());
 
+        List<EpisodeResponse> episodesResponses = episodes.stream()
+                .map(episode -> EpisodeResponse.builder()
+                        .title(episode.getTitle())
+                        .name(episode.getName())
+                        .build())
+                .toList();
+
         return AnimeResponse.builder()
                 .name(anime.getName())
-                .episodes(episodes.stream()
-                        .map(episode -> EpisodeResponse.builder()
-                                .title(episode.getTitle())
-                                .name(episode.getName())
-                                .build())
-                        .toList()
-                ).build();
+                .episodes(episodesResponses).build();
     }
 
     public AnimeResponse create(Anime anime) {
@@ -58,13 +62,16 @@ public class AnimeService {
 
         List<Episode> episodes = episodeRepository.findByName(savedAnime.getName());
 
+        List<EpisodeResponse> episodesResponses = episodes.stream()
+                .map(episode -> EpisodeResponse.builder()
+                        .name(episode.getName())
+                        .title(episode.getTitle())
+                        .build())
+                .toList();
+
         return AnimeResponse.builder()
                 .name(savedAnime.getName())
-                .episodes(episodes.stream().map(episode -> EpisodeResponse.builder()
-                                .name(episode.getName())
-                                .title(episode.getTitle())
-                                .build())
-                        .toList())
+                .episodes(episodesResponses)
                 .build();
     }
 
