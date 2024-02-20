@@ -11,15 +11,13 @@
 	</parent>
 
 	<groupId>br.com.study</groupId>
-	<artifactId>reactive</artifactId>
+	<artifactId>classic</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 
-	<name>reactive</name>
+	<name>classic</name>
 
 	<properties>
 		<java.version>17</java.version>
-		<blockhound.version>1.0.8.RELEASE</blockhound.version>
-		<r2dbc-mssql.version>1.0.2.RELEASE</r2dbc-mssql.version>
 	</properties>
 
 	<dependencies>

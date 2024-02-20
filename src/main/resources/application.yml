@@ -21,11 +21,3 @@ logging:
     org:
       springframework:
         web: INFO
-        data:
-          mongodb:
-            core:
-              ReactiveMongoTemplate: DEBUG
-    reactor:
-      netty:
-        http:
-          client: DEBUG
