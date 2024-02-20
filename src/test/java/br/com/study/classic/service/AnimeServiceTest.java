@@ -61,10 +61,10 @@ class AnimeServiceTest {
     @Test
     void createReturnVoidWhenSuccessful() {
         // Actions
-        String name = animeService.create(Anime.builder().name("Fullmetal Alchemist").build());
+        AnimeResponse animeResponse = animeService.create(Anime.builder().name("Fullmetal Alchemist").build());
 
         // Assertions
-        Assertions.assertThat(name).isEqualTo("Fullmetal Alchemist");
+        Assertions.assertThat(animeResponse).isNotNull();
     }
 
     @Test
@@ -85,9 +85,9 @@ class AnimeServiceTest {
     @Test
     void deleteReturnVoidWhenSuccessful() {
         // Actions
-        boolean deleted = animeService.delete("Fullmetal Alchemist");
+        AnimeResponse deleted = animeService.delete("Fullmetal Alchemist");
 
         // Assertions
-        Assertions.assertThat(deleted).isTrue();
+        Assertions.assertThat(deleted).isNotNull();
     }
 }

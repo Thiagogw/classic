@@ -53,8 +53,19 @@ public class AnimeService {
                 ).build();
     }
 
-    public String create(Anime anime) {
-        return animeRepository.save(anime).getName();
+    public AnimeResponse create(Anime anime) {
+        Anime savedAnime = animeRepository.save(anime);
+
+        List<Episode> episodes = episodeRepository.findByName(savedAnime.getName());
+
+        return AnimeResponse.builder()
+                .name(savedAnime.getName())
+                .episodes(episodes.stream().map(episode -> EpisodeResponse.builder()
+                                .name(episode.getName())
+                                .title(episode.getTitle())
+                                .build())
+                        .toList())
+                .build();
     }
 
     public AnimeResponse update(String name, Anime anime) {
@@ -84,11 +95,27 @@ public class AnimeService {
                 .episodes(episodeResponses).build();
     }
 
-    public boolean delete(String name) {
+    public AnimeResponse delete(String name) {
         Anime existingAnime = animeRepository.findByName(name);
 
         animeRepository.delete(existingAnime);
 
-        return true;
+        List<Episode> episodes = episodeRepository.findByName(existingAnime.getName());
+
+        List<EpisodeResponse> episodesResponses = episodes.stream()
+                .map(episode -> {
+                    episodeRepository.delete(episode);
+
+                    return EpisodeResponse.builder()
+                            .name(episode.getName())
+                            .title(episode.getTitle())
+                            .build();
+                })
+                .toList();
+
+        return AnimeResponse.builder()
+                .name(existingAnime.getName())
+                .episodes(episodesResponses)
+                .build();
     }
 }

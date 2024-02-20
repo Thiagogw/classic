@@ -23,4 +23,11 @@ public class AnimeCreator {
                 .name("Fullmetal Alchemist: Brotherhood")
                 .build();
     }
+
+    public static Anime createAnimeToBeDeleted() {
+        return Anime.builder()
+                .id("e8f945f7-7faa-4504-aeb8-52122b113d9c")
+                .name("Fullmetal Alchemist")
+                .build();
+    }
 }

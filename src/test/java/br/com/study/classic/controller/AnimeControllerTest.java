@@ -30,12 +30,13 @@ class AnimeControllerTest {
         Anime animeToBeSaved = AnimeCreator.createAnimeToBeSaved();
         Anime animeToBeFound = AnimeCreator.createAnimeToBeFound();
         Anime animeToBeUpdated = AnimeCreator.createAnimeToBeUpdated();
+        Anime animeToBeDeleted = AnimeCreator.createAnimeToBeDeleted();
 
         Mockito.when(animeService.findAll()).thenReturn(List.of(AnimeResponse.builder().name(animeToBeSaved.getName()).build()));
         Mockito.when(animeService.findByName(Mockito.any())).thenReturn(AnimeResponse.builder().name(animeToBeFound.getName()).build());
-        Mockito.when(animeService.create(Mockito.any())).thenReturn("");
+        Mockito.when(animeService.create(Mockito.any())).thenReturn(AnimeResponse.builder().name(animeToBeSaved.getName()).build());
         Mockito.when(animeService.update(Mockito.any(), Mockito.any())).thenReturn(AnimeResponse.builder().name(animeToBeUpdated.getName()).build());
-        Mockito.when(animeService.delete(Mockito.any())).thenReturn(true);
+        Mockito.when(animeService.delete(Mockito.any())).thenReturn(AnimeResponse.builder().name(animeToBeDeleted.getName()).build());
     }
 
     @Test
@@ -64,7 +65,7 @@ class AnimeControllerTest {
     @Test
     void createReturnVoidWhenSuccessful() {
         // Actions
-        ResponseEntity<Void> responseEntity = animeController.create(Anime.builder().name("One Piece").build());
+        ResponseEntity<AnimeResponse> responseEntity = animeController.create(Anime.builder().name("One Piece").build());
 
         // Assertions
         Assertions.assertThat(responseEntity.getStatusCode().is2xxSuccessful()).isTrue();
@@ -88,7 +89,7 @@ class AnimeControllerTest {
     @Test
     void deleteReturnVoidWhenSuccessful() {
         // Actions
-        ResponseEntity<Void> responseEntity = animeController.delete("Fullmetal Alchemist");
+        ResponseEntity<AnimeResponse> responseEntity = animeController.delete("Fullmetal Alchemist");
 
         // Assertions
         Assertions.assertThat(responseEntity.getStatusCode().is2xxSuccessful()).isTrue();
