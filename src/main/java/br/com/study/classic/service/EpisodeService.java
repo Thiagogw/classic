@@ -18,6 +18,7 @@ public class EpisodeService {
         List<Episode> episodes = episodeRepository.findAll();
 
         return episodes.stream().map(episode -> EpisodeResponse.builder()
+                .id(episode.getId())
                 .title(episode.getTitle())
                 .name(episode.getName())
                 .build()
@@ -25,19 +26,27 @@ public class EpisodeService {
     }
 
     public List<EpisodeResponse> findByName(String name) {
-        List<Episode> episodes = episodeRepository.findByName(name);
 
-        return episodes.stream().map(episode -> EpisodeResponse.builder()
-                .title(episode.getTitle())
-                .name(episode.getName())
-                .build()
-        ).toList();
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        return episodeRepository.findByName(name).stream()
+                .map(episode -> EpisodeResponse.builder()
+                        .id(episode.getId())
+                        .title(episode.getTitle())
+                        .name(episode.getName())
+                        .build()
+                ).toList();
     }
 
     public EpisodeResponse findByTitle(String title) {
         Episode episode = episodeRepository.findByTitle(title);
 
         return EpisodeResponse.builder()
+                .id(episode.getId())
                 .title(episode.getTitle())
                 .name(episode.getName())
                 .build();
@@ -47,6 +56,7 @@ public class EpisodeService {
         Episode savedEpisode = episodeRepository.save(episode);
 
         return EpisodeResponse.builder()
+                .id(episode.getId())
                 .title(savedEpisode.getTitle())
                 .name(savedEpisode.getName())
                 .build();
@@ -60,6 +70,7 @@ public class EpisodeService {
         Episode episodeSaved = episodeRepository.save(episode);
 
         return EpisodeResponse.builder()
+                .id(episode.getId())
                 .title(episodeSaved.getTitle())
                 .name(episodeSaved.getName())
                 .build();
@@ -71,6 +82,7 @@ public class EpisodeService {
         episodeRepository.delete(existingEpisode);
 
         return EpisodeResponse.builder()
+                .id(existingEpisode.getId())
                 .title(existingEpisode.getTitle())
                 .name(existingEpisode.getName())
                 .build();
